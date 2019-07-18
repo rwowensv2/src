@@ -1,33 +1,33 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net"
-	"os"
+	"time"
 )
 
 func main() {
-	//args := os.Args[1:]
-	//fmt.Println(len(os.Args))
 
-	if len(os.Args) != 3 {
-		fmt.Printf("usage: portcheck <hostname> <port>\nMissing port defaults to 80\n")
-		return
+	hostPtr := flag.String("host", "golang.org", "hostname or IP")
+	portPtr := flag.String("port", "80", "portnumber")
+	sleepPtr := flag.Int64("sleep", 5, "Polling interval in seconds")
+
+	flag.Parse()
+
+	for {
+		conn, err := net.Dial("tcp", *hostPtr+":"+*portPtr)
+		if err != nil {
+			fmt.Println(err)
+			return
+
+		}
+
+		fmt.Printf("Connection established between %s and localhost.\n", *hostPtr)
+		fmt.Printf("Remote Address : %s \n", conn.RemoteAddr().String())
+		fmt.Printf("Local Address : %s \n", conn.LocalAddr().String())
+		time.Sleep(time.Duration(*sleepPtr) * time.Second)
+
 	}
 
-	//fmt.Println(args)
-	hostname := os.Args[1]
-	portnum := os.Args[2]
-	//fmt.Println(hostname)
-	//fmt.Println(portnum)
-
-	conn, err := net.Dial("tcp", hostname+":"+portnum)
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Printf("Connection established between %s and localhost.\n", hostname)
-	fmt.Printf("Remote Address : %s \n", conn.RemoteAddr().String())
-	fmt.Printf("Local Address : %s \n", conn.LocalAddr().String())
 }
