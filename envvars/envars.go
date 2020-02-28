@@ -9,9 +9,13 @@ import (
 func main() {
 
 const (
-	robVAR = "ROBVAR"
+	user  = "USER"
+        shell = "SHELL"
 )
 
-fmt.Println("My Env Var:", os.Getenv(robVAR))
-	
+envvars := [2]string{user, shell}
+
+  for _, v := range envvars {
+    fmt.Println(os.Getenv(v))
+  }
 }
