@@ -11,9 +11,10 @@ func main() {
 const (
 	user  = "USER"
         shell = "SHELL"
+        gop   = "GOPATH"
 )
 
-envvars := [2]string{user, shell}
+envvars := [3]string{user, shell, gop}
 
   for _, v := range envvars {
     fmt.Println(os.Getenv(v))
